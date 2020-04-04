@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"time"
 )
 
@@ -19,7 +20,9 @@ import (
 func Commands() [][]string {
 	var cmds [][]string
 	if exe := os.Getenv("BROWSER"); exe != "" {
-		cmds = append(cmds, []string{exe})
+		for _, e := range strings.Split(exe, ":") {
+			cmds = append(cmds, strings.Split(e, " "))
+		}
 	}
 	switch runtime.GOOS {
 	case "darwin":
