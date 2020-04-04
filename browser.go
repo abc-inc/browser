@@ -1,3 +1,4 @@
+// Copyright 2020 The browser Authors. All rights reserved.
 // Copyright 2016 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
@@ -6,6 +7,8 @@
 package browser
 
 import (
+	"bytes"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"runtime"
@@ -22,11 +25,17 @@ func Commands() [][]string {
 	case "darwin":
 		cmds = append(cmds, []string{"/usr/bin/open"})
 	case "windows":
-		cmds = append(cmds, []string{"cmd", "/c", "start"})
+		cmds = append(cmds, []string{"cmd.exe", "/c", "start"})
 	default:
 		if os.Getenv("DISPLAY") != "" {
 			// xdg-open is only for use in a desktop environment.
 			cmds = append(cmds, []string{"xdg-open"})
+		} else if _, err := os.Stat("/proc/version"); err != nil {
+			// WSL reports to be linux and if there's no X server available, fallback to Windows.
+			if v, err := ioutil.ReadFile("/proc/version");
+				err != nil && bytes.Contains(bytes.ToLower(v), []byte("microsoft")) {
+				cmds = append(cmds, []string{"cmd.exe", "/c", "start"})
+			}
 		}
 	}
 	cmds = append(cmds,
