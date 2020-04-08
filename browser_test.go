@@ -5,10 +5,12 @@
 package browser_test
 
 import (
-	"github.com/abc-inc/browser"
 	"os"
+	"os/exec"
 	"strconv"
 	"testing"
+
+	"github.com/abc-inc/browser"
 )
 
 func TestCommands(t *testing.T) {
@@ -16,5 +18,11 @@ func TestCommands(t *testing.T) {
 	commands := browser.Commands()
 	if len(commands) < 5 {
 		t.Error("want >=5 commands, got " + strconv.Itoa(len(commands)))
+	}
+}
+
+func TestOpenCmdNil(t *testing.T) {
+	if browser.OpenCmd("/", func(cmd *exec.Cmd) *exec.Cmd { return nil }) {
+		t.Error("want false, got true")
 	}
 }

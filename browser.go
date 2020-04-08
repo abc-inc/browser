@@ -35,8 +35,7 @@ func Commands() [][]string {
 			cmds = append(cmds, []string{"xdg-open"})
 		} else if _, err := os.Stat("/proc/version"); err != nil {
 			// WSL reports to be linux and if there's no X server available, fallback to Windows.
-			if v, err := ioutil.ReadFile("/proc/version");
-				err != nil && bytes.Contains(bytes.ToLower(v), []byte("microsoft")) {
+			if v, err := ioutil.ReadFile("/proc/version"); err != nil && bytes.Contains(bytes.ToLower(v), []byte("microsoft")) {
 				cmds = append(cmds, []string{"cmd.exe", "/c", "start"})
 			}
 		}
@@ -52,8 +51,17 @@ func Commands() [][]string {
 
 // Open tries to open url in a browser and reports whether it succeeded.
 func Open(url string) bool {
+	return OpenCmd(url, func(cmd *exec.Cmd) *exec.Cmd { return cmd })
+}
+
+// OpenCmd tries to open url in a browser using customized Cmds and reports whether it succeeded.
+// If cust returns nil, the Cmd is skipped.
+func OpenCmd(url string, cust func(cmd *exec.Cmd) *exec.Cmd) bool {
 	for _, args := range Commands() {
 		cmd := exec.Command(args[0], append(args[1:], url)...)
+		if cmd = cust(cmd); cmd == nil {
+			continue
+		}
 		if cmd.Start() == nil && appearsSuccessful(cmd, 3*time.Second) {
 			return true
 		}

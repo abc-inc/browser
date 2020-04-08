@@ -1,12 +1,13 @@
 ## Introduction
-*browser* opens the provided URL (or file) by using an executable (in the following sequence):
+*browser* is a dependency-free library for opening URLs (or files) in the most appropriate browser or assigned application, respectively.
+Based on the operating system and available executables, it tries to open URLs in the following sequence:
 
 1.  command defined by the environment variable `$BROWSER` (if set)
 2.  operating system specific launcher
     * macOS: `/usr/bin/open`
-	* windows: `cmd /c start`
+	* Windows: `cmd /c start`
 	* otherwise: `xdg-open` (if environment variable `$DISPLAY` is set)
-3.  use one the following binaries from `$PATH`
+3.  one of the following binaries from `$PATH`
     * `chrome`
 	* `google-chrome`
 	* `chromium`
@@ -62,14 +63,15 @@ BROWSER=code:vi browser file:///Users/me/dev/project
 * [github.com/hashicorp/terraform/command/webbrowser][gh/hashicorp/terraform]:
 encapsulates [pkg/browser][gh/pkg/browser] and provides a mock implementation for testing purposes.
 
-| Feature                   | [abc-inc/browser][gh/abc-inc/browser] | [pkg/browser][gh/pkg/browser] | [hashicorp/terraform][gh/hashicorp/terraform] |
-| ------------------------- |:-------------------------------------:|:-----------------------------:|:---------------------------------------------:|
-| Windows/Linux/macOS       | :ballot_box_with_check:               |                               |                                               |
-| FreeBSD/NetBSD (xdg-open) | :ballot_box_with_check:               |                               |                                               |
-| [$BROWSER][man.1] support | :ballot_box_with_check:               |                               |                                               |
-| WSL support               | :ballot_box_with_check:               |                               |                                               |
-| open from io.Reader       |                                       | :ballot_box_with_check:       |                                               |
-| mock support              |                                       |                               | :ballot_box_with_check:                       |
+| Feature                           | [abc-inc/browser][gh/abc-inc/browser] | [pkg/browser][gh/pkg/browser] | [hashicorp/terraform][gh/hashicorp/terraform] |
+| --------------------------------- |:-------------------------------------:|:-----------------------------:|:---------------------------------------------:|
+| Windows/Linux/macOS/OpenBSD       | :ballot_box_with_check:               | :ballot_box_with_check:       | :ballot_box_with_check:                       |
+| FreeBSD/NetBSD (xdg-open)         | :ballot_box_with_check:               |                               |                                               |
+| WSL support                       | :ballot_box_with_check:               |                               |                                               |
+| [$BROWSER][man.1] support         | :ballot_box_with_check:               |                               |                                               |
+| open from io.Reader               |                                       | :ballot_box_with_check:       |                                               |
+| mock support                      |                                       |                               | :ballot_box_with_check:                       |
+| custom Cmd (Args, Dir, Env, etc.) | :ballot_box_with_check:               |                               |                                               |
 
 [gh/abc-inc/browser]: https://github.com/abc-inc/browser
 [gh/pkg/browser]: https://github.com/pkg/browser

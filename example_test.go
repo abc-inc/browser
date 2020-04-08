@@ -8,12 +8,12 @@ import (
 	"github.com/abc-inc/browser"
 )
 
-func ExampleOpen_File() {
+func ExampleOpen_file() {
 	_ = browser.Open("file:///tmp")
 	// Output:
 }
 
-func ExampleOpen_URL() {
+func ExampleOpen_url() {
 	_ = browser.Open("http://localhost/")
 	// Output:
 }
