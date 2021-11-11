@@ -6,7 +6,8 @@
 
 # shellcheck disable=SC2164
 cd "$(dirname "$0")/.."
-go test browser_test.go
+go test ./...
+mkdir -p bin
 for os in darwin:app linux:bin windows:exe; do
-  GOOS="${os%:*}" go build -ldflags "-s -w" -o "browser.${os#*:}" cmd/browser/main.go
+  GOOS="${os%:*}" go build -ldflags "-s -w" -o "bin/browser.${os#*:}" -trimpath cmd/browser/main.go
 done

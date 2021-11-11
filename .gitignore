@@ -1,23 +1,21 @@
-# Binaries for programs and plugins
+### JetBrains
+/.idea/
+
+### Visual Studio Code
+/.vscode/
+
+### Go
+*.out
+*.test
+
+### misc
+/bin/
+/dist/
+/tmp/
+*.log
+*.tmp
+
+### binaries
 *.app
 *.bin
 *.exe
-
-*.test
-*.out
-
-### Vim
-# Swap
-[._]*.s[a-v][a-z]
-[._]*.sw[a-p]
-[._]s[a-rt-v][a-z]
-[._]ss[a-gi-z]
-[._]sw[a-p]
-
-### VisualStudioCode
-.vscode/*
-
-### JetBrains
-.idea/
-*.iml
-out/

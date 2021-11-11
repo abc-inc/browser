@@ -5,10 +5,11 @@
 package main
 
 import (
-	"github.com/abc-inc/browser"
 	"log"
 	"os"
 	"path"
+
+	"github.com/abc-inc/browser"
 )
 
 func main() {
