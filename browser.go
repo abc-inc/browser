@@ -8,7 +8,6 @@ package browser
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"runtime"
@@ -35,7 +34,7 @@ func Commands() [][]string {
 			cmds = append(cmds, []string{"xdg-open"})
 		} else if _, err := os.Stat("/proc/version"); err != nil {
 			// WSL reports to be linux and if there's no X server available, fallback to Windows.
-			if v, err := ioutil.ReadFile("/proc/version"); err != nil && bytes.Contains(bytes.ToLower(v), []byte("microsoft")) {
+			if v, err := os.ReadFile("/proc/version"); err != nil && bytes.Contains(bytes.ToLower(v), []byte("microsoft")) {
 				cmds = append(cmds, []string{"cmd.exe", "/c", "start"})
 			}
 		}
@@ -58,7 +57,7 @@ func Open(url string) bool {
 // If cust returns nil, the Cmd is skipped.
 func OpenCmd(url string, cust func(cmd *exec.Cmd) *exec.Cmd) bool {
 	for _, args := range Commands() {
-		cmd := exec.Command(args[0], append(args[1:], url)...)
+		cmd := exec.Command(args[0], append(args[1:], url)...) //nolint:gosec
 		if cmd = cust(cmd); cmd == nil {
 			continue
 		}
